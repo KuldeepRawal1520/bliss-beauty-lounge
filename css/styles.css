@@ -12,7 +12,7 @@ svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke
 .site-header{min-height:88px;padding:12px var(--gutter,clamp(20px,5vw,80px));display:flex;align-items:center;gap:40px;background:#F1EEDB;position:relative;z-index:10;border-bottom:1px solid rgba(26,25,23,.12)}
 .wordmark{display:flex;align-items:center;gap:12px;white-space:nowrap}.wordmark>span{font:400 54px/.9 var(--script,cursive);color:#F02B1F}.wordmark small{font:500 12px/1.2 var(--body,system-ui);letter-spacing:.04em}
 .header-nav{display:flex;align-items:center;gap:clamp(18px,3vw,42px);margin-left:auto;font-size:15px}.header-nav a:hover{text-decoration:underline;text-decoration-color:#F02B1F;text-underline-offset:6px}
-.header-call,.call-button{min-height:52px;padding:0 25px;background:#F02B1F;color:#1A1917;border:0;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;gap:10px;font:700 19px var(--body,system-ui)}
+.header-call,.call-button{min-height:52px;padding:0 25px;background:#F02B1F;color:#F1EEDB;border:0;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;gap:10px;font:500 24px var(--body,system-ui)}
 .hero{min-height:calc(100svh - 88px);background:#F1EEDB;padding:clamp(36px,6vw,90px) var(--gutter,clamp(20px,5vw,80px));display:grid;align-items:center}
 .hero-inner{width:100%;max-width:var(--content,1440px);margin:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(400px,.95fr);align-items:center;gap:5vw}
 .hero-copy{max-width:650px}.hero-location{margin:-12px 0 22px;font-size:14px}.eyebrow,.section-number{font:500 12px var(--body,system-ui);letter-spacing:.12em;text-transform:uppercase;margin:0 0 22px}
