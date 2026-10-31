@@ -1,25 +1,19 @@
 # Bliss Beauty Lounge design direction
 
 ## Experience
-Warm, elegant, friendly and immediately understandable for salon visitors. The visual language is calm and welcoming, with familiar navigation, visible actions and readable service information. The arched mirror photography remains the signature visual, while its 3D scroll movement is restrained and purposeful.
+Warm, elegant and friendly for salon visitors. The visual language is calm and welcoming, with familiar navigation, visible actions and readable service information. The hero's arched mirror photography is the signature dimensional feature; the brand intro is a short cinematic "The Cut" moment.
 
 ## Colour system
-Only three brand colours: Ivory #F1EEDB (dominant), Charcoal #1A1917 (secondary), and Scarlet #F02B1F (accent). Target visible background split is approximately 60% ivory, 30% charcoal and 10% scarlet. Ivory is used for the header, hero, Our Work and Kind Words; charcoal for Our Services, Visit Us and footer; scarlet for the Call Us band and primary booking accents. Tints are limited to mixes of these colours. No blue or unrelated hue is used in the interface.
+Only three brand colours: Ivory #F1EEDB, Charcoal #1A1917 and Scarlet #F02B1F. The requested approximate 60/30/10 background balance applies outside the intro. The hero remains ivory. Scarlet is reserved there for the Call to Book action, the word "colour" and small accents. The intro uses only the three colours and their mixes. Business content, service prices, reviews, SEO and JSON-LD remain unchanged.
 
-## Typography
-Playfair Display 700 for headings, with restrained italic Playfair accents; DM Sans 400/500 for body and controls; Great Vibes only for the Bliss wordmark and intro. Georgia and system-ui fallbacks preserve a considered hierarchy if web fonts fail.
+## Typography and layout
+Playfair Display for headings, DM Sans 400/500 for body and controls, and Great Vibes for the Bliss wordmark and intro. Desktop hero pairs the original copy with three fanned, extruded mirror arches. Mobile puts the headline first, then a compact arch composition and the existing actions. Header navigation, gallery, services, reviews, booking band, visit details and footer retain their existing structure and content.
 
-## Layout and navigation
-Desktop uses a simple header with four text links and a prominent Call to Book action. Mobile uses the wordmark, a visible Call button and a fixed four-action bar for Call, Directions, Hours and Services. Page content uses consistent responsive gutters and a centred maximum width. The hero pairs plain-language copy with the existing three-arch mirror cluster. Our Work is an arched image gallery; Our Services presents four straightforward categories and their complete price lists; Kind Words shows all eight reviews; Call Us is a clear scarlet booking band; Visit Us contains the address, seven-day hours and social/directions links.
+## Hero depth and motion
+The mirror stage uses approximately 1100px perspective, preserved 3D transforms, layered charcoal extrusion, an ivory inner frame, diagonal glass glints and soft contact shadows. The platinum, scarlet and blue arches sit at distinct Z depths and base Y rotations. The hero includes a restrained spotlight, faint script, two depth strands, capped star particles and a floating inline SVG scissors signature. Desktop pointer parallax is eased; mobile uses slow automatic sway and scroll-linked tilt. ScrollTrigger swings the outer arches open while the centre retreats, without pinning. Scissor and floating loops pause when the hero leaves the viewport. Motion is transform, opacity or clip-path only; pre-blurred shadows are static. Reduced motion and ?fx=off retain composed static poses.
 
-## Motion
-The desktop gallery retains its existing GSAP/ScrollTrigger scroll-swing concept, reduced to a maximum 16-degree rotateY and -120px depth, returning to a fully opaque, front-facing state. Mobile gallery interaction is a native swipe carousel with snap points and explicit controls. Other reveals are short fades and small rises. ?fx=off and prefers-reduced-motion leave the page static and complete. No custom cursor, magnetic interaction, grain, fan menu, neon glow or pointer tilt.
+## Brand intro: The Cut
+The intro is created by JavaScript only. It uses a scarlet stage with a static charcoal vignette, eight line sweeps, three crossing paper planes, the ivory Bliss script, descriptor, eight sparkles and a scissors diagonal cut. The overlay separates to reveal the existing page and the script flies toward the real header wordmark when measurable. A visible keyboard-accessible Skip button jumps to the end. The GSAP choreography targets approximately 3.4 seconds; the hard failsafe removes and disables the overlay at 4.6 seconds, and CSS reveals pending hero/header states at 4.9 seconds. The inline head guard uses sessionStorage, ?intro=1 replay, ?fx=off and reduced-motion checks. Intro flash peak is capped at 35%; logo glow flicker amplitude is soft, with three separated flickers.
 
-## Intro
-A JavaScript-created scarlet brand moment uses the Great Vibes Bliss wordmark, ivory descriptor and charcoal diagonal sweep. It remains skippable by touch, click or keyboard, respects reduced motion, uses sessionStorage and retains the 3.5-second failsafe and 3.6-second CSS reveal fallback. ?intro=1 requests replay.
-
-## Accessibility and content integrity
-Semantic links and buttons, visible charcoal/ivory focus rings, minimum 52px primary actions, readable mobile body text, safe-area padding and native scrolling are required. Business facts remain in config.js. Existing service names, prices, durations, eight review texts, gallery captions and image assets are retained. SEO metadata and BeautySalon JSON-LD remain unchanged. Images retain width and height attributes and use object-fit:cover without source upscaling beyond the supplied dimensions.
-
-## Dependencies and verification
-GSAP and ScrollTrigger remain pinned to 3.12.5. Browser/device rendering, Lighthouse and live assistive-technology testing must be performed separately; code-level checks do not substitute for visual QA.
+## Accessibility, performance and verification
+Static HTML remains available without JavaScript. Features are isolated in try/catch blocks with null checks. Particles are capped at 12 desktop / 6 mobile; will-change is limited to active motion; hero loops pause off-screen. GSAP and ScrollTrigger remain at 3.12.5. Browser rendering, real-device testing, Lighthouse and assistive-technology testing remain separate QA tasks.
