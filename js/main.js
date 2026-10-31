@@ -19,7 +19,7 @@ safe(function(){
  var hint=stage.querySelector('.cover-swipe-hint'),prev=stage.querySelector('.cover-prev'),next=stage.querySelector('.cover-next');
  var dots=document.createElement('div');dots.className='cover-dots';dots.setAttribute('role','group');dots.setAttribute('aria-label','Choose a hair colour');
  cards.forEach(function(card,i){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Show '+card.querySelector('.cover-label').textContent+' look');b.addEventListener('click',function(){if(Math.abs(drag)>8)return;set(i);pause()});dots.appendChild(b)});
- stage.appendChild(dots);
+ stage.insertAdjacentElement('afterend',dots);
  function render(){cards.forEach(function(card,i){var d=i-active-drag/ (stage.clientWidth*.58);while(d>2.5)d-=cards.length;while(d< -2.5)d+=cards.length;var a=Math.abs(d),opacity=a<.5?1:a<1.5?.85:a<2?.5:0;card.style.setProperty('--d',d.toFixed(3));card.style.setProperty('--opacity',opacity);card.style.zIndex=String(10-Math.round(a));card.classList.toggle('is-active',Math.round(d)===0&&a<.35);card.setAttribute('aria-hidden',String(a>2));card.tabIndex=a<.5?0:-1;card.style.pointerEvents=a>2?'none':'auto';card.style.willChange=(dragging||a<.5)?'transform':'auto';dots.children[i].classList.toggle('active',a<.5);dots.children[i].setAttribute('aria-pressed',String(a<.5))});}
  function set(i){active=(i+cards.length)%cards.length;drag=0;render()}
  function stop(){if(auto)clearInterval(auto);auto=null}
