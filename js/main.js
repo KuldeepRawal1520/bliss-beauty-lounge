@@ -11,6 +11,38 @@ safe(function(){var tabs=[].slice.call(document.querySelectorAll('[role="tab"]')
 safe(function(){var strip=document.querySelector(".review-strip"),prev=document.getElementById("review-prev"),next=document.getElementById("review-next"),dots=document.querySelectorAll(".review-dots i");if(!strip||!prev||!next)return;var items=strip.querySelectorAll("blockquote");function move(dir){strip.scrollBy({left:dir*(items[0]?items[0].getBoundingClientRect().width+20:strip.clientWidth*.8),behavior:reduce?"auto":"smooth"})}prev.addEventListener("click",function(){move(-1)});next.addEventListener("click",function(){move(1)});function mark(){if(!items.length)return;var idx=Math.round(strip.scrollLeft/(items[0].offsetWidth+20));dots.forEach(function(d,i){d.classList.toggle("active",i===idx)})}strip.addEventListener("scroll",mark,{passive:true});mark()});
 safe(function(){var track=document.getElementById("gallery-track"),cards=track&&[].slice.call(track.querySelectorAll(".hall-card")),prev=document.getElementById("gallery-prev"),next=document.getElementById("gallery-next"),dots=document.getElementById("gallery-dots");if(!track||!cards.length)return;function step(dir){var card=cards[0],gap=15;track.scrollBy({left:dir*(card.getBoundingClientRect().width+gap),behavior:reduce?"auto":"smooth"})}if(prev)prev.addEventListener("click",function(){step(-1)});if(next)next.addEventListener("click",function(){step(1)});if(dots){cards.forEach(function(c,i){var b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Show photo "+(i+1));b.addEventListener("click",function(){cards[i].scrollIntoView({behavior:reduce?"auto":"smooth",block:"nearest",inline:"center"})});dots.appendChild(b)});var indicators=dots.querySelectorAll("button");function update(){var mid=track.scrollLeft+track.clientWidth/2,active=0,best=Infinity;cards.forEach(function(c,i){var d=Math.abs(c.offsetLeft+c.offsetWidth/2-mid);if(d<best){best=d;active=i}});cards.forEach(function(c,i){c.classList.toggle("is-centred",i===active)});indicators.forEach(function(b,i){b.classList.toggle("active",i===active)})}track.addEventListener("scroll",function(){requestAnimationFrame(update)},{passive:true});update()}});
 safe(function(){if(reduce||fxOff||!window.gsap||!window.ScrollTrigger)return;gsap.registerPlugin(ScrollTrigger);gsap.from(".hero-copy h1",{y:24,opacity:0,duration:.7,ease:"power2.out"});gsap.from(".mirror",{y:60,opacity:0,duration:.9,stagger:.12,ease:"power2.out",delay:.15});var cards=document.querySelectorAll(".hall-card");if(innerWidth>760){cards.forEach(function(card,i){gsap.fromTo(card,{rotateY:i%2?16:-16,z:-120,opacity:.85},{rotateY:0,z:0,opacity:1,ease:"none",scrollTrigger:{trigger:card,start:"top 95%",end:"center 48%",scrub:true}})})}gsap.utils.toArray(".section-heading").forEach(function(el){gsap.from(el,{y:24,opacity:0,duration:.7,ease:"power2.out",scrollTrigger:{trigger:el,start:"top 90%"}})})});
+
+/* AUTOMATIC HERO LOOKBOOK: rotate the featured salon photos with a soft crossfade. */
+safe(function(){
+ var cluster=document.querySelector(".mirror-cluster");
+ if(!cluster)return;
+ var frames=[].slice.call(cluster.querySelectorAll(".mirror img"));
+ var looks=[
+  ["images/platinum-blonde.jpg","images/red-hair.jpg","images/blue-colour.jpg"],
+  ["images/blonde-ombre.jpg","images/burgundy-highlights.jpg","images/caramel-bob.jpg"],
+  ["images/silver-chunky-highlights.jpg","images/caramel-highlights-waves.jpg","images/brunette-caramel-waves.jpg"],
+  ["images/ash-blonde-balayage.jpg","images/gold-highlights-layers.jpg","images/silver-highlights.jpg"],
+  ["images/blue-colour.jpg","images/platinum-blonde.jpg","images/blonde-ombre.jpg"]
+ ];
+ var labels=[["Platinum blonde","Scarlet","Blue"],["Blonde ombre","Burgundy","Caramel"],["Silver highlights","Caramel waves","Brunette"],["Ash blonde","Golden highlights","Silver"],["Blue","Platinum blonde","Blonde ombre"]];
+ var index=0,busy=false;
+ cluster.setAttribute("aria-label","Featured hair colour lookbook. Photos change automatically.");
+ function advance(){
+  if(busy||document.hidden||reduce||fxOff)return;
+  busy=true;index=(index+1)%looks.length;
+  frames.forEach(function(img,i){
+   var next=looks[index][i],probe=new Image();
+   probe.onload=function(){
+    img.classList.add("photo-leaving");
+    setTimeout(function(){img.src=next;img.alt="Hair colour: "+labels[index][i];img.classList.remove("photo-leaving");img.classList.add("photo-arriving");setTimeout(function(){img.classList.remove("photo-arriving")},700)},260);
+   };
+   probe.src=next;
+  });
+  setTimeout(function(){busy=false},1050);
+ }
+ if(!reduce&&!fxOff)setInterval(advance,4200);
+});
+
 /* THE CUT: self-contained CSS choreography, independent of GSAP availability. */
 safe(function(){
  var root=document.documentElement;
