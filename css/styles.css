@@ -479,7 +479,7 @@ body:after{content:"";position:fixed;inset:0;z-index:30;pointer-events:none;opac
 .hero-review .review-attribution{font-weight:600;white-space:nowrap}
 .hero-review a{font-size:11px;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
 .service-marquee{height:56px;overflow:hidden;display:flex;align-items:center;background:#34483C;color:#E8EEE6;white-space:nowrap}
-.service-marquee-track{display:flex;align-items:center;gap:32px;width:max-content;min-width:200%;animation:serviceTicker 40s linear infinite;font-size:13px;letter-spacing:.13em;text-transform:uppercase}
+.service-marquee-track{display:flex;align-items:center;gap:32px;width:max-content;min-width:200%;animation:serviceTicker 28s linear infinite;font-size:13px;letter-spacing:.13em;text-transform:uppercase}
 .service-marquee-track i{font-style:normal;color:#B97863;font-size:18px}
 @keyframes serviceTicker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .scroll-cue{display:inline-flex;align-items:center;gap:9px;margin:22px auto 0;color:#34483C;font-size:9px;letter-spacing:.2em;text-decoration:none}
@@ -488,9 +488,22 @@ body:after{content:"";position:fixed;inset:0;z-index:30;pointer-events:none;opac
 @media(prefers-reduced-motion:reduce){.service-marquee-track,.scroll-cue i{animation:none!important}body:after{display:none}}
 @media(max-width:767px){
  .service-marquee{height:56px;margin-top:0}
- .service-marquee-track{gap:23px;font-size:11px;animation-duration:40s}
+ .service-marquee-track{gap:23px;font-size:11px;animation-duration:28s}
  .hero-review{margin:12px auto 0;max-width:100%;min-height:48px;padding:0 4px}
  .hero-review .review-quote{max-width:100%;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
  .scroll-cue{margin:14px auto 0}
  .hero-actions{text-align:center}
+}
+
+/* Ryan preview refinement: map is directly beneath directions; phone gallery advances itself. */
+@media(min-width:768px){
+ .visit-grid>div:first-child{grid-column:1/-1;display:grid;grid-template-columns:minmax(240px,.7fr) minmax(0,1.3fr);column-gap:36px;align-items:start}
+ .visit-grid>div:first-child h3,.visit-grid>div:first-child p,.visit-grid>div:first-child .directions-link{grid-column:1}
+ .visit-grid>div:first-child .map-embed{grid-column:2;grid-row:1/4;margin:0;height:300px}
+}
+@media(max-width:767px){
+ .visit-grid{display:flex;flex-direction:column;gap:30px}
+ .visit-grid>div:first-child{display:flex;flex-direction:column;align-items:center;gap:0}
+ .visit-grid>div:first-child .map-embed{order:4;width:100%;height:260px;margin:18px 0 0}
+ .visit-grid>div:first-child .directions-link{margin-bottom:0}
 }
