@@ -93,3 +93,38 @@ html.fx-off{scroll-behavior:auto!important}html.fx-off *,html.fx-off *:before,ht
  .brand-intro.is-playing .intro-paper{width:64vw;height:56vh;left:18vw;top:22vh}
 }
 @media(prefers-reduced-motion:reduce){.brand-intro.is-playing{display:none!important}}
+
+/* CLASSIC 3D BLISS INTRO: velvet, antique brass, warm ivory and restrained theatrical motion. */
+.brand-intro.is-playing{position:fixed;inset:0;z-index:99999;overflow:hidden;background:#160d0c!important;color:#f5e9d0;perspective:1400px;isolation:isolate}
+.brand-intro.is-playing .classic-stage{position:absolute;inset:0;overflow:hidden;background:radial-gradient(ellipse at 50% 43%,#68413a 0%,#321c1b 36%,#160d0c 76%);transform-style:preserve-3d}
+.brand-intro.is-playing .classic-backdrop{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 44%,rgba(244,215,164,.17),transparent 43%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 28%,transparent 72%,rgba(0,0,0,.28));}
+.brand-intro.is-playing .classic-frame{position:absolute;inset:clamp(14px,3vw,42px);border:1px solid rgba(207,174,112,.45);pointer-events:none;transform:translateZ(20px);box-shadow:inset 0 0 35px rgba(0,0,0,.16)}
+.brand-intro.is-playing .frame-inner{inset:clamp(22px,4.4vw,62px);border-color:rgba(245,226,190,.17);transform:translateZ(28px)}
+.brand-intro.is-playing .classic-curtain{position:absolute;top:-5%;bottom:-5%;width:34%;z-index:4;transform-style:preserve-3d;background:repeating-linear-gradient(90deg,#260e18 0,#4a1c2a 8%,#6a2939 13%,#351321 21%,#200c15 29%);box-shadow:inset -22px 0 35px rgba(0,0,0,.35),inset 12px 0 22px rgba(255,210,170,.08),0 0 45px rgba(0,0,0,.45);filter:saturate(.82)}
+.brand-intro.is-playing .curtain-left{left:0;transform-origin:left center;clip-path:polygon(0 0,100% 0,87% 100%,0 100%);animation:classic-curtain-left 1.45s .55s cubic-bezier(.2,.72,.18,1) both}
+.brand-intro.is-playing .curtain-right{right:0;transform-origin:right center;clip-path:polygon(0 0,100% 0,100% 100%,13% 100%);animation:classic-curtain-right 1.45s .55s cubic-bezier(.2,.72,.18,1) both}
+.brand-intro.is-playing .classic-pedestal{position:absolute;left:50%;bottom:13%;width:min(58vw,650px);height:9%;transform:translateX(-50%) rotateX(62deg) translateZ(8px);border:1px solid rgba(225,192,130,.55);background:linear-gradient(180deg,#9a7140,#3b251d 40%,#170f0d);box-shadow:0 18px 55px rgba(0,0,0,.55),0 0 30px rgba(214,175,112,.12);border-radius:50%}
+.brand-intro.is-playing .classic-logo{position:absolute;z-index:5;left:50%;top:45%;width:min(86vw,780px);text-align:center;transform:translate(-50%,-50%) translateZ(90px);opacity:1;animation:classic-logo-arrive 1.4s .65s cubic-bezier(.18,.8,.2,1) both}
+.brand-intro.is-playing .classic-monogram{margin:0 auto -15px;width:clamp(44px,7vw,76px);height:clamp(44px,7vw,76px);display:grid;place-items:center;border:1px solid rgba(222,190,132,.85);border-radius:50%;color:#e7c98f;font:400 clamp(28px,4vw,44px)/1 Georgia,serif;text-shadow:0 2px 8px rgba(0,0,0,.5);box-shadow:0 0 24px rgba(221,184,119,.14),inset 0 0 12px rgba(221,184,119,.12)}
+.brand-intro.is-playing .classic-wordmark{color:#f4e6c9;font:400 clamp(92px,17vw,210px)/1 var(--script,"Great Vibes",cursive);letter-spacing:-.035em;text-shadow:0 2px 0 #7e5d3c,0 5px 15px rgba(0,0,0,.7),0 0 26px rgba(245,218,170,.2);white-space:nowrap}
+.brand-intro.is-playing .classic-rule{display:flex;align-items:center;justify-content:center;gap:14px;width:min(48vw,390px);margin:7px auto 12px;color:#d8b878}
+.brand-intro.is-playing .classic-rule i{height:1px;flex:1;background:linear-gradient(90deg,transparent,#c9a66a)}
+.brand-intro.is-playing .classic-rule i:last-child{transform:scaleX(-1)}
+.brand-intro.is-playing .classic-rule span{font-size:14px;text-shadow:0 0 12px rgba(240,211,157,.7)}
+.brand-intro.is-playing .classic-subtitle{color:#e5d1ad;font:500 clamp(12px,2vw,19px)/1.4 var(--body,"DM Sans",sans-serif);letter-spacing:.42em;text-indent:.42em;text-shadow:0 2px 8px rgba(0,0,0,.65)}
+.brand-intro.is-playing .classic-shears{position:absolute;z-index:7;left:0;top:0;width:clamp(110px,15vw,180px);filter:drop-shadow(0 5px 10px rgba(0,0,0,.6));opacity:0;animation:classic-shears-flight 3.1s 1.2s cubic-bezier(.45,.05,.25,1) both}
+.brand-intro.is-playing .classic-shears svg{width:100%;display:block;overflow:visible}
+.brand-intro.is-playing .classic-shears .shear-a,.brand-intro.is-playing .classic-shears .shear-b{transform-box:view-box;transform-origin:90px 90px;animation:classic-snip .42s ease-in-out 5}
+.brand-intro.is-playing .classic-glint{position:absolute;z-index:8;width:2px;height:100px;background:linear-gradient(transparent,#fff2d2,transparent);box-shadow:0 0 12px 2px rgba(255,230,183,.65);opacity:0;transform:rotate(38deg)}
+.brand-intro.is-playing .glint-one{left:25%;top:12%;animation:classic-glint 1.3s 1.8s ease-in-out both}
+.brand-intro.is-playing .glint-two{right:24%;top:52%;animation:classic-glint 1.3s 2.5s ease-in-out both}
+.brand-intro.is-playing .intro-skip{position:absolute;z-index:20;left:50%;bottom:max(20px,env(safe-area-inset-bottom));transform:translateX(-50%);min-height:44px;padding:9px 22px;border:1px solid rgba(218,188,133,.58);border-radius:2px;background:rgba(22,13,12,.55);color:#ead9b8;font:500 13px var(--body,system-ui);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.brand-intro.is-playing .intro-skip:focus-visible{outline:2px solid #ead9b8;outline-offset:4px}
+@keyframes classic-curtain-left{0%{transform:translateX(0) rotateY(0)}100%{transform:translateX(-84%) rotateY(24deg)}}
+@keyframes classic-curtain-right{0%{transform:translateX(0) rotateY(0)}100%{transform:translateX(84%) rotateY(-24deg)}}
+@keyframes classic-logo-arrive{0%{opacity:0;filter:blur(8px);transform:translate(-50%,-43%) translateZ(-150px) scale(.72)}65%{opacity:1;filter:blur(0);transform:translate(-50%,-50%) translateZ(110px) scale(1.025)}100%{opacity:1;filter:blur(0);transform:translate(-50%,-50%) translateZ(90px) scale(1)}}
+@keyframes classic-shears-flight{0%{opacity:0;transform:translate3d(-14vw,68vh,0) rotate(-32deg)}10%{opacity:1}38%{transform:translate3d(28vw,17vh,0) rotate(18deg)}70%{transform:translate3d(66vw,42vh,0) rotate(-13deg)}100%{opacity:0;transform:translate3d(112vw,-8vh,0) rotate(24deg)}}
+@keyframes classic-snip{0%,100%{transform:rotate(0)}50%{transform:rotate(11deg)}}
+@keyframes classic-glint{0%{opacity:0;transform:translateY(-35px) rotate(38deg)}35%{opacity:.85}100%{opacity:0;transform:translateY(80px) rotate(38deg)}}
+@media(max-width:760px){.brand-intro.is-playing .classic-curtain{width:40%}.brand-intro.is-playing .classic-logo{top:44%;width:94vw}.brand-intro.is-playing .classic-wordmark{font-size:clamp(88px,24vw,156px)}.brand-intro.is-playing .classic-subtitle{font-size:11px;letter-spacing:.28em;text-indent:.28em}.brand-intro.is-playing .classic-monogram{width:46px;height:46px;font-size:28px}.brand-intro.is-playing .classic-pedestal{width:72vw;bottom:18%}.brand-intro.is-playing .classic-shears{width:clamp(100px,31vw,138px)}}
+@media(prefers-reduced-motion:reduce){.brand-intro.is-playing .classic-curtain,.brand-intro.is-playing .classic-logo,.brand-intro.is-playing .classic-shears,.brand-intro.is-playing .classic-glint{animation:none!important}.brand-intro.is-playing .classic-logo{opacity:1}}
