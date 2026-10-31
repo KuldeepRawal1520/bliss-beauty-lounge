@@ -20,7 +20,7 @@ safe(function(){
  overlay.className="brand-intro is-playing";
  overlay.setAttribute("role","dialog");
  overlay.setAttribute("aria-label","Bliss Beauty Lounge");
- overlay.innerHTML='<div class="intro-vignette"></div><div class="intro-flash"></div><i class="intro-paper ivory"></i><i class="intro-paper charcoal"></i><i class="intro-paper deep"></i><div class="intro-lines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div class="intro-stars" aria-hidden="true"><i>✦</i><i>✦</i><i>✦</i><i>✦</i><i>✦</i><i>✦</i><i>✦</i><i>✦</i></div><div class="intro-logo-wrap"><div class="intro-name">Bliss<span class="descriptor">BEAUTY LOUNGE</span></div></div><i class="intro-cutline" aria-hidden="true"></i><svg class="intro-scissors" viewBox="0 0 180 180" aria-hidden="true"><g class="scissor-blade blade-a"><path d="M89 91 L20 18 Q8 6 3 18 Q0 29 13 38 L83 103" fill="#F1EEDB" stroke="#1A1917" stroke-width="2"/></g><g class="scissor-blade blade-b"><path d="M91 91 L158 18 Q170 6 176 18 Q179 29 166 38 L97 103" fill="#F1EEDB" stroke="#1A1917" stroke-width="2"/></g><circle cx="90" cy="92" r="7" fill="#F02B1F" stroke="#1A1917" stroke-width="2"/></svg><div class="intro-half top"></div><div class="intro-half bottom"></div><button class="intro-skip" type="button">Skip intro</button>';
+ overlay.innerHTML='<div class="classic-stage"><div class="classic-backdrop"></div><div class="classic-frame frame-outer"></div><div class="classic-frame frame-inner"></div><div class="classic-curtain curtain-left"></div><div class="classic-curtain curtain-right"></div><div class="classic-pedestal"></div><div class="classic-logo"><div class="classic-monogram">B</div><div class="classic-wordmark">Bliss</div><div class="classic-rule"><i></i><span>✦</span><i></i></div><div class="classic-subtitle">BEAUTY LOUNGE</div></div><div class="classic-shears" aria-hidden="true"><svg viewBox="0 0 180 180"><g class="shear-a"><path d="M88 88 22 18Q8 4 3 17 0 29 14 39L82 101" fill="url(#goldMetal)" stroke="#6e4b24" stroke-width="2"/></g><g class="shear-b"><path d="m92 88 66-70q14-14 19-1 3 12-11 22l-68 62" fill="url(#goldMetal)" stroke="#6e4b24" stroke-width="2"/></g><circle cx="90" cy="90" r="7" fill="#d8b878" stroke="#6e4b24" stroke-width="2"/><circle cx="29" cy="143" r="22" fill="none" stroke="#c9a66a" stroke-width="7"/><circle cx="151" cy="143" r="22" fill="none" stroke="#c9a66a" stroke-width="7"/><defs><linearGradient id="goldMetal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0c8"/><stop offset=".45" stop-color="#c49a55"/><stop offset="1" stop-color="#f8e2a8"/></linearGradient></defs></svg></div><div class="classic-glint glint-one"></div><div class="classic-glint glint-two"></div></div><button class="intro-skip" type="button">Skip intro</button>'
  document.body.appendChild(overlay);
  var done=false,timer=null,skip=overlay.querySelector(".intro-skip");
  function finish(){
@@ -35,6 +35,6 @@ safe(function(){
  skip.addEventListener("click",finish);
  document.addEventListener("keydown",keySkip);
  document.body.style.overflow="hidden";
- timer=setTimeout(finish,4600);
+ timer=setTimeout(finish,5200);
 });
 })();
