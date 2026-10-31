@@ -20,7 +20,7 @@ safe(function(){
  var dots=document.createElement('div');dots.className='cover-dots';dots.setAttribute('role','group');dots.setAttribute('aria-label','Choose a hair colour');
  cards.forEach(function(card,i){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Show '+card.querySelector('.cover-label').textContent+' look');b.addEventListener('click',function(){if(Math.abs(drag)>8)return;set(i);pause()});dots.appendChild(b)});
  stage.insertAdjacentElement('afterend',dots);
- function render(){cards.forEach(function(card,i){var d=i-active-drag/ (stage.clientWidth*.58);while(d>2.5)d-=cards.length;while(d< -2.5)d+=cards.length;var a=Math.abs(d),opacity=a<.5?1:a<1.5?.85:a<2?.5:0;card.style.setProperty('--d',d.toFixed(3));card.style.setProperty('--z',(-a*90)+'px');card.style.setProperty('--scale',String(1-a*.1));card.style.setProperty('--opacity',opacity);card.style.zIndex=String(10-Math.round(a));card.classList.toggle('is-active',Math.round(d)===0&&a<.35);card.setAttribute('aria-hidden',String(a>2));card.tabIndex=a<.5?0:-1;card.style.pointerEvents=a>2?'none':'auto';card.style.willChange=(dragging||a<.5)?'transform':'auto';dots.children[i].classList.toggle('active',a<.5);dots.children[i].setAttribute('aria-pressed',String(a<.5))});}
+ function render(){cards.forEach(function(card,i){var d=i-active-drag/ (stage.clientWidth*.58);while(d>3)d-=cards.length;while(d< -3)d+=cards.length;var a=Math.abs(d),opacity=a<.5?1:a<1.5?.85:a<2?.5:0;card.style.setProperty('--d',d.toFixed(3));card.style.setProperty('--z',(-a*90)+'px');card.style.setProperty('--scale',String(1-a*.1));card.style.setProperty('--opacity',opacity);card.style.zIndex=String(10-Math.round(a));card.classList.toggle('is-active',Math.round(d)===0&&a<.35);card.setAttribute('aria-hidden',String(a>2));card.tabIndex=a<.5?0:-1;card.style.pointerEvents=a>2?'none':'auto';card.style.willChange=(dragging||a<.5)?'transform':'auto';dots.children[i].classList.toggle('active',a<.5);dots.children[i].setAttribute('aria-pressed',String(a<.5))});}
  function set(i){active=(i+cards.length)%cards.length;drag=0;render()}
  function stop(){if(auto)clearInterval(auto);auto=null}
  function play(){stop();if(reduce||fxOff||document.hidden)return;auto=setInterval(function(){if(Date.now()>pauseUntil&&!dragging&&visible)set(active+1)},3200)}
@@ -34,7 +34,7 @@ safe(function(){
  cards.forEach(function(card,i){card.addEventListener('click',function(e){if(Math.abs(drag)>5)return;if(i!==active){e.preventDefault();set(i);pause()}})});
  if(prev)prev.addEventListener('click',function(){set(active-1);pause()});if(next)next.addEventListener('click',function(){set(active+1);pause()});
  stage.addEventListener('keydown',function(e){if(e.key==='ArrowLeft'){set(active-1);pause()}if(e.key==='ArrowRight'){set(active+1);pause()}});
- set(0);play();document.addEventListener('visibilitychange',function(){if(document.hidden)stop();else play()});
+ track.classList.add('is-ready');set(0);play();document.addEventListener('visibilitychange',function(){if(document.hidden)stop();else play()});
 });
 /* Phone navigation and delayed sticky booking bar. */
 safe(function(){
