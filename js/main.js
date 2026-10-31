@@ -12,37 +12,27 @@ safe(function(){var strip=document.querySelector(".review-strip"),prev=document.
 safe(function(){var track=document.getElementById("gallery-track"),cards=track&&[].slice.call(track.querySelectorAll(".hall-card")),prev=document.getElementById("gallery-prev"),next=document.getElementById("gallery-next"),dots=document.getElementById("gallery-dots");if(!track||!cards.length)return;function step(dir){var card=cards[0],gap=15;track.scrollBy({left:dir*(card.getBoundingClientRect().width+gap),behavior:reduce?"auto":"smooth"})}if(prev)prev.addEventListener("click",function(){step(-1)});if(next)next.addEventListener("click",function(){step(1)});if(dots){cards.forEach(function(c,i){var b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Show photo "+(i+1));b.addEventListener("click",function(){cards[i].scrollIntoView({behavior:reduce?"auto":"smooth",block:"nearest",inline:"center"})});dots.appendChild(b)});var indicators=dots.querySelectorAll("button");function update(){var mid=track.scrollLeft+track.clientWidth/2,active=0,best=Infinity;cards.forEach(function(c,i){var d=Math.abs(c.offsetLeft+c.offsetWidth/2-mid);if(d<best){best=d;active=i}});cards.forEach(function(c,i){c.classList.toggle("is-centred",i===active)});indicators.forEach(function(b,i){b.classList.toggle("active",i===active)})}track.addEventListener("scroll",function(){requestAnimationFrame(update)},{passive:true});update()}});
 safe(function(){if(reduce||fxOff||!window.gsap||!window.ScrollTrigger)return;gsap.registerPlugin(ScrollTrigger);gsap.from(".hero-copy h1",{y:24,opacity:0,duration:.7,ease:"power2.out"});gsap.from(".mirror",{y:60,opacity:0,duration:.9,stagger:.12,ease:"power2.out",delay:.15});var cards=document.querySelectorAll(".hall-card");if(innerWidth>760){cards.forEach(function(card,i){gsap.fromTo(card,{rotateY:i%2?16:-16,z:-120,opacity:.85},{rotateY:0,z:0,opacity:1,ease:"none",scrollTrigger:{trigger:card,start:"top 95%",end:"center 48%",scrub:true}})})}gsap.utils.toArray(".section-heading").forEach(function(el){gsap.from(el,{y:24,opacity:0,duration:.7,ease:"power2.out",scrollTrigger:{trigger:el,start:"top 90%"}})})});
 
-/* AUTOMATIC HERO LOOKBOOK: rotate the featured salon photos with a soft crossfade. */
+/* PREMIUM HERO LOOKBOOK: accessible, automatic three-frame carousel. */
 safe(function(){
- var cluster=document.querySelector(".mirror-cluster");
- if(!cluster)return;
- var frames=[].slice.call(cluster.querySelectorAll(".mirror img"));
- var looks=[
-  ["images/platinum-blonde.jpg","images/red-hair.jpg","images/blue-colour.jpg"],
-  ["images/blonde-ombre.jpg","images/burgundy-highlights.jpg","images/caramel-bob.jpg"],
-  ["images/silver-chunky-highlights.jpg","images/caramel-highlights-waves.jpg","images/brunette-caramel-waves.jpg"],
-  ["images/ash-blonde-balayage.jpg","images/gold-highlights-layers.jpg","images/silver-highlights.jpg"],
-  ["images/blue-colour.jpg","images/platinum-blonde.jpg","images/blonde-ombre.jpg"]
+ var cluster=document.querySelector('.mirror-cluster');if(!cluster)return;
+ var imgs=[].slice.call(cluster.querySelectorAll('.mirror img'));if(imgs.length!==3)return;
+ var slides=[
+  {images:['platinum-blonde.jpg','red-hair.jpg','blue-colour.jpg'],names:['Platinum blonde','Scarlet gloss','Vivid blue'],title:'A little colour goes a long way.'},
+  {images:['blonde-ombre.jpg','burgundy-highlights.jpg','caramel-bob.jpg'],names:['Blonde ombre','Burgundy dimension','Caramel bob'],title:'Find the shade that feels like you.'},
+  {images:['silver-chunky-highlights.jpg','caramel-highlights-waves.jpg','brunette-caramel-waves.jpg'],names:['Silver dimension','Caramel waves','Brunette gloss'],title:'Beautiful from every angle.'},
+  {images:['ash-blonde-balayage.jpg','gold-highlights-layers.jpg','silver-highlights.jpg'],names:['Ash blonde','Golden layers','Silver highlights'],title:'Your next look starts here.'}
  ];
- var labels=[["Platinum blonde","Scarlet","Blue"],["Blonde ombre","Burgundy","Caramel"],["Silver highlights","Caramel waves","Brunette"],["Ash blonde","Golden highlights","Silver"],["Blue","Platinum blonde","Blonde ombre"]];
- var index=0,busy=false;
- cluster.setAttribute("aria-label","Featured hair colour lookbook. Photos change automatically.");
- function advance(){
-  if(busy||document.hidden||reduce||fxOff)return;
-  busy=true;index=(index+1)%looks.length;
-  frames.forEach(function(img,i){
-   var next=looks[index][i],probe=new Image();
-   probe.onload=function(){
-    img.classList.add("photo-leaving");
-    setTimeout(function(){img.src=next;img.alt="Hair colour: "+labels[index][i];img.classList.remove("photo-leaving");img.classList.add("photo-arriving");setTimeout(function(){img.classList.remove("photo-arriving")},700)},260);
-   };
-   probe.src=next;
-  });
-  setTimeout(function(){busy=false},1050);
- }
- if(!reduce&&!fxOff)setInterval(advance,4200);
+ var current=0,locked=false,interval=null;
+ var caption=document.createElement('div');caption.className='lookbook-caption';caption.innerHTML='<span class="lookbook-kicker">THE BLISS COLOUR EDIT</span><span class="lookbook-title"></span><span class="lookbook-count"></span>';cluster.appendChild(caption);
+ var controls=document.createElement('div');controls.className='lookbook-controls';controls.innerHTML='<button type="button" class="lookbook-prev" aria-label="Previous colour looks">‹</button><div class="lookbook-dots" role="group" aria-label="Choose a colour look"></div><button type="button" class="lookbook-next" aria-label="Next colour looks">›</button>';cluster.appendChild(controls);
+ var title=caption.querySelector('.lookbook-title'),count=caption.querySelector('.lookbook-count'),dots=controls.querySelector('.lookbook-dots');
+ slides.forEach(function(s,i){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Show look '+(i+1));b.addEventListener('click',function(){show(i);restart()});dots.appendChild(b)});
+ function paint(){title.textContent=slides[current].title;count.textContent=String(current+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');[].forEach.call(dots.children,function(b,i){b.classList.toggle('active',i===current);b.setAttribute('aria-pressed',String(i===current))})}
+ function show(i){if(locked)return;locked=true;current=(i+slides.length)%slides.length;var s=slides[current],loaded=0;imgs.forEach(function(img,n){var pre=new Image();pre.onload=function(){img.classList.add('is-changing');setTimeout(function(){img.src=pre.src;img.alt='Hair colour: '+s.names[n];img.classList.remove('is-changing');img.classList.add('is-arriving');setTimeout(function(){img.classList.remove('is-arriving')},850);if(++loaded===imgs.length)locked=false},280)};pre.onerror=function(){if(++loaded===imgs.length)locked=false};pre.src=s.images[n]});paint()}
+ function restart(){if(interval)clearInterval(interval);if(!reduce&&!fxOff)interval=setInterval(function(){if(!document.hidden)show(current+1)},5200)}
+ controls.querySelector('.lookbook-prev').addEventListener('click',function(){show(current-1);restart()});controls.querySelector('.lookbook-next').addEventListener('click',function(){show(current+1);restart()});
+ paint();restart();document.addEventListener('visibilitychange',function(){if(document.hidden){if(interval)clearInterval(interval)}else restart()});
 });
-
 /* THE CUT: self-contained CSS choreography, independent of GSAP availability. */
 safe(function(){
  var root=document.documentElement;
@@ -52,7 +42,7 @@ safe(function(){
  overlay.className="brand-intro is-playing";
  overlay.setAttribute("role","dialog");
  overlay.setAttribute("aria-label","Bliss Beauty Lounge");
- overlay.innerHTML='<div class="classic-stage"><div class="classic-backdrop"></div><div class="classic-frame frame-outer"></div><div class="classic-frame frame-inner"></div><div class="classic-curtain curtain-left"></div><div class="classic-curtain curtain-right"></div><div class="classic-pedestal"></div><div class="classic-logo"><div class="classic-monogram">B</div><div class="classic-wordmark">Bliss</div><div class="classic-rule"><i></i><span>✦</span><i></i></div><div class="classic-subtitle">BEAUTY LOUNGE</div></div><div class="classic-shears" aria-hidden="true"><svg viewBox="0 0 180 180"><g class="shear-a"><path d="M88 88 22 18Q8 4 3 17 0 29 14 39L82 101" fill="url(#goldMetal)" stroke="#6e4b24" stroke-width="2"/></g><g class="shear-b"><path d="m92 88 66-70q14-14 19-1 3 12-11 22l-68 62" fill="url(#goldMetal)" stroke="#6e4b24" stroke-width="2"/></g><circle cx="90" cy="90" r="7" fill="#d8b878" stroke="#6e4b24" stroke-width="2"/><circle cx="29" cy="143" r="22" fill="none" stroke="#c9a66a" stroke-width="7"/><circle cx="151" cy="143" r="22" fill="none" stroke="#c9a66a" stroke-width="7"/><defs><linearGradient id="goldMetal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0c8"/><stop offset=".45" stop-color="#c49a55"/><stop offset="1" stop-color="#f8e2a8"/></linearGradient></defs></svg></div><div class="classic-glint glint-one"></div><div class="classic-glint glint-two"></div></div><button class="intro-skip" type="button">Skip intro</button>'
+ overlay.innerHTML='<div class="classic-stage"><div class="classic-backdrop"></div><div class="classic-frame frame-outer"></div><div class="classic-frame frame-inner"></div><div class="classic-curtain curtain-left"></div><div class="classic-curtain curtain-right"></div><div class="classic-pedestal"></div><div class="intro-photo intro-photo-left"><img src="images/platinum-blonde.jpg" alt=""></div><div class="intro-photo intro-photo-right"><img src="images/caramel-highlights-waves.jpg" alt=""></div><div class="classic-logo"><div class="classic-monogram">B</div><div class="classic-wordmark">Bliss</div><div class="classic-rule"><i></i><span>✦</span><i></i></div><div class="classic-subtitle">BEAUTY LOUNGE</div><div class="intro-location">ETOBICOKE · TORONTO</div></div><div class="classic-shears" aria-hidden="true"><svg viewBox="0 0 180 180"><g class="shear-a"><path d="M88 88 22 18Q8 4 3 17 0 29 14 39L82 101" fill="url(#goldMetal)" stroke="#6e4b24" stroke-width="2"/></g><g class="shear-b"><path d="m92 88 66-70q14-14 19-1 3 12-11 22l-68 62" fill="url(#goldMetal)" stroke="#6e4b24" stroke-width="2"/></g><circle cx="90" cy="90" r="7" fill="#d8b878" stroke="#6e4b24" stroke-width="2"/><circle cx="29" cy="143" r="22" fill="none" stroke="#c9a66a" stroke-width="7"/><circle cx="151" cy="143" r="22" fill="none" stroke="#c9a66a" stroke-width="7"/><defs><linearGradient id="goldMetal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0c8"/><stop offset=".45" stop-color="#c49a55"/><stop offset="1" stop-color="#f8e2a8"/></linearGradient></defs></svg></div><div class="classic-glint glint-one"></div><div class="classic-glint glint-two"></div></div><button class="intro-skip" type="button">Skip intro</button>'
  document.body.appendChild(overlay);
  var done=false,timer=null,skip=overlay.querySelector(".intro-skip");
  function finish(){
@@ -67,6 +57,6 @@ safe(function(){
  skip.addEventListener("click",finish);
  document.addEventListener("keydown",keySkip);
  document.body.style.overflow="hidden";
- timer=setTimeout(finish,5200);
+ timer=setTimeout(finish,6500);
 });
 })();
