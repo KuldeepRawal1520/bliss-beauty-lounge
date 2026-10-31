@@ -334,7 +334,7 @@ html,body{background:var(--sage-light);color:var(--sage-dark)}
 .menu-toggle{display:none}
 .menu-book{display:none}
 .coverflow-track{position:absolute;inset:0;overflow:hidden;perspective:900px;perspective-origin:50% 45%;touch-action:pan-y;isolation:isolate}
-.cover-card{position:absolute;left:50%;top:2%;width:min(58%,250px);height:96%;margin:0;padding:0;border-radius:18px;border:1px solid rgba(222,226,229,.92);overflow:hidden;background:#dce3db;box-shadow:0 22px 42px rgba(32,49,40,.2),0 0 0 1px rgba(255,255,255,.22);transform:translateX(calc(-50% + var(--d)*58%)) translateZ(calc(-1 * abs(var(--d))*90px)) rotateY(calc(var(--d)*-38deg)) scale(calc(1 - abs(var(--d))*.1));opacity:var(--opacity,0);transition:transform 520ms cubic-bezier(.22,.8,.2,1),opacity 520ms cubic-bezier(.22,.8,.2,1),box-shadow 520ms;transform-style:preserve-3d;backface-visibility:hidden}
+.cover-card{position:absolute;left:50%;top:2%;width:min(58%,250px);height:96%;margin:0;padding:0;border-radius:18px;border:1px solid rgba(222,226,229,.92);overflow:hidden;background:#dce3db;box-shadow:0 22px 42px rgba(32,49,40,.2),0 0 0 1px rgba(255,255,255,.22);transform:translateX(calc(-50% + var(--d)*58%)) translateZ(var(--z,0px)) rotateY(calc(var(--d)*-38deg)) scale(var(--scale,1));opacity:var(--opacity,0);transition:transform 520ms cubic-bezier(.22,.8,.2,1),opacity 520ms cubic-bezier(.22,.8,.2,1),box-shadow 520ms;transform-style:preserve-3d;backface-visibility:hidden}
 .cover-card img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.92) contrast(1.04)}
 .cover-card:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(22,35,28,.02) 45%,rgba(22,35,28,.28)),url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");opacity:.34;mix-blend-mode:soft-light}
 .cover-label{position:absolute;z-index:2;left:12px;bottom:12px;padding:7px 11px;border:1px solid rgba(255,255,255,.6);border-radius:99px;background:rgba(245,247,241,.88);color:#34483C;font:500 9px var(--sans);letter-spacing:.12em;text-transform:uppercase}
@@ -414,3 +414,7 @@ html,body{background:var(--sage-light);color:var(--sage-dark)}
  .cover-card:not(.is-active){opacity:.35!important}
  .cover-prev,.cover-next,.cover-swipe-hint{display:none}
 }
+
+/* Progressive enhancement: the first portfolio image remains visible without JS. */
+.coverflow-track .cover-card:first-child{--d:0;--z:0px;--scale:1;--opacity:1;opacity:1;transform:translateX(-50%)}
+.coverflow-track .cover-card:not(:first-child){opacity:0;pointer-events:none}
