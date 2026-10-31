@@ -469,3 +469,28 @@ html,body{background:var(--sage-light);color:var(--sage-dark)}
  .map-embed{height:280px;margin-top:26px;border-radius:8px}
  .site-footer{text-align:center;align-items:center}
 }
+
+/* Quiet editorial details: service ticker, rotating review line and film grain. */
+body:after{content:"";position:fixed;inset:0;z-index:30;pointer-events:none;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E");mix-blend-mode:multiply}
+.hero-review{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:5px 9px;max-width:560px;margin:14px 0 0;font-size:12px;line-height:1.45;text-align:center;transition:opacity .22s ease}
+.hero-review.is-fading{opacity:0}
+.hero-review .review-stars{color:#B97863;letter-spacing:.12em;white-space:nowrap}
+.hero-review .review-quote{font-family:var(--heading,Georgia,serif);font-style:italic}
+.hero-review .review-attribution{font-weight:600;white-space:nowrap}
+.hero-review a{font-size:11px;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.service-marquee{height:56px;overflow:hidden;display:flex;align-items:center;background:#34483C;color:#E8EEE6;white-space:nowrap}
+.service-marquee-track{display:flex;align-items:center;gap:32px;width:max-content;min-width:200%;animation:serviceTicker 40s linear infinite;font-size:13px;letter-spacing:.13em;text-transform:uppercase}
+.service-marquee-track i{font-style:normal;color:#B97863;font-size:18px}
+@keyframes serviceTicker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.scroll-cue{display:inline-flex;align-items:center;gap:9px;margin:22px auto 0;color:#34483C;font-size:9px;letter-spacing:.2em;text-decoration:none}
+.scroll-cue i{display:block;width:1px;height:30px;background:#B97863;transform-origin:top;animation:scrollCue 1.8s ease-in-out infinite}
+@keyframes scrollCue{0%,100%{transform:scaleY(.45);opacity:.45}50%{transform:scaleY(1);opacity:1}}
+@media(prefers-reduced-motion:reduce){.service-marquee-track,.scroll-cue i{animation:none!important}body:after{display:none}}
+@media(max-width:767px){
+ .service-marquee{height:56px;margin-top:0}
+ .service-marquee-track{gap:23px;font-size:11px;animation-duration:40s}
+ .hero-review{margin:12px auto 0;max-width:100%;min-height:48px;padding:0 4px}
+ .hero-review .review-quote{max-width:100%;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+ .scroll-cue{margin:14px auto 0}
+ .hero-actions{text-align:center}
+}
