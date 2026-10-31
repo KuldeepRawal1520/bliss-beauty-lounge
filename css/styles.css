@@ -109,3 +109,9 @@ html.fx-off{scroll-behavior:auto!important}html.fx-off *,html.fx-off *:before,ht
 }
 html.fx-off .mirror,html.fx-off .mirror-stage,html.fx-off .hero-scissors,html.fx-off .hero-stars,html.fx-off .hero-script,html.fx-off .depth-strands,html.fx-off .hero-spotlight{animation:none!important;will-change:auto!important}
 html.fx-off .mirror{transform:translateZ(var(--depth,0px)) rotateY(var(--base-y,0deg))!important}
+
+
+.intro-cutline{position:absolute;left:-5%;top:50%;width:115%;height:2px;background:#F1EEDB;transform:rotate(-30deg) scaleX(0);transform-origin:left center;z-index:6}
+.intro-half{opacity:0}
+.intro-pending .hero-copy .eyebrow,.intro-pending .hero-copy .hero-location,.intro-pending .hero-copy h1,.intro-pending .hero-copy .hero-description,.intro-pending .hero-copy .call-button,.intro-pending .hero-copy .walkins,.intro-pending .hero-copy .open-chip,.intro-pending .site-header .wordmark{animation:reveal-fallback 0s 4.9s forwards}
+@media(max-width:760px){.hero-inner{grid-template-rows:auto auto auto auto minmax(180px,31svh) auto auto auto}.mirror-cluster{grid-row:5}.hero-copy .call-button{grid-row:6}.hero-copy .walkins{grid-row:7}.hero-copy .open-chip{grid-row:8}}
