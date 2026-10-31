@@ -777,3 +777,10 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;op
 .js-reveal{opacity:0;transform:translateY(24px);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.7,.2,1)}
 .js-reveal.is-revealed{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.js-reveal{opacity:1;transform:none}}
+
+/* Coverflow fallback and centring correction. */
+.cover-card{transform:translateX(calc(-50% + var(--d,0)*58%)) translateZ(var(--z,0px)) rotateY(calc(var(--d,0)*-38deg)) scale(var(--scale,1))}
+.cover-card:first-child{--d:0;--z:0px;--scale:1;--opacity:1;opacity:1}
+.cover-card:not(:first-child){opacity:var(--opacity,0)}
+@media(min-width:768px){.cover-card{width:clamp(230px,24vw,340px);height:88%;top:6%}}
+@media(max-width:767px){.cover-card{transform:translateX(calc(-50% + var(--d,0)*58%)) translateZ(var(--z,0px)) rotateY(calc(var(--d,0)*-38deg)) scale(var(--scale,1))}}
