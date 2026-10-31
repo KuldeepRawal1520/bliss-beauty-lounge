@@ -69,6 +69,6 @@ safe(function(){
  skip.addEventListener("click",finish);
  document.addEventListener("keydown",keySkip);
  document.body.style.overflow="hidden";
- timer=setTimeout(finish,5500);
+ timer=setTimeout(finish,4000);
 });
 })();
