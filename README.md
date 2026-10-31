@@ -1,30 +1,27 @@
-# Bliss Beauty Lounge
+# Bliss Beauty Lounge — The Mirror Hall
 
-A static, mobile-first salon website for Bliss Beauty Lounge, Etobicoke, built with plain HTML, CSS and JavaScript for Vercel.
+A static salon website for Bliss Beauty Lounge, Etobicoke. Built with semantic HTML, CSS 3D and progressive JavaScript enhancements. No build step.
 
 ## Run locally
-Open `index.html` in a browser, or serve the repository root with any static file server. There is no build step and no package installation.
+Open index.html in a browser or serve the repository root with a static file server.
 
 ## Project structure
-- `index.html` - semantic page content, services, reviews and SEO metadata
-- `config.js` - business contact details, hours and social links
-- `css/styles.css` - theme, responsive layouts and motion
-- `js/main.js` - hours status, menu interactions, navigation sheet and gallery behavior
-- `images/` - salon portfolio images (expected filenames are listed below)
-- `DESIGN.md` - visual direction and implementation rules
+- index.html — accessible page content, full service prices, reviews and SEO metadata
+- config.js — unchanged business facts, phone, address, hours and social links
+- content.js — commented tagline and ordered portfolio caption data
+- css/styles.css — The Mirror Hall visual system, responsive layouts and motion
+- js/main.js — intro, Toronto open status, accordions, 3D motion, quick links and reviews
+- images/ — the 12 original salon portfolio images
+- DESIGN.md — design direction and implementation notes
 
-## Portfolio image assets
-The empty GitHub repository did not contain the 12 supplied portfolio images at the time this site was created. Add the original, unmodified files to `images/` using these exact names:
+## Portfolio
+The twelve original, unmodified images are in images/. Preserve their filenames. Images are displayed in arched frames and must not be upscaled beyond twice their native pixel width.
 
-`blue-colour.jpg`, `blonde-ombre.jpg`, `burgundy-highlights.jpg`, `caramel-bob.jpg`, `caramel-highlights-waves.jpg`, `red-hair.jpg`, `silver-chunky-highlights.jpg`, `ash-blonde-balayage.jpg`, `brunette-caramel-waves.jpg`, `gold-highlights-layers.jpg`, `platinum-blonde.jpg`, `silver-highlights.jpg`.
+## Booking and business details
+Booking is phone only. The main action is Call to Book. Walk-ins welcome. Business facts and operating hours are read from config.js.
 
-Until those assets are added, the gallery gracefully displays labelled visual placeholders. Do not substitute stock photography for the owner's images.
-
-## Business details
-All operational details are centralized in `config.js`. Booking is by phone only. Walk-ins are welcome. There is no online booking integration.
+## Motion and accessibility
+The design uses CSS 3D and GSAP 3.12.5 / ScrollTrigger 3.12.5 from cdnjs. Native scrolling is retained. ?fx=off disables scroll and pointer effects; ?intro=1 replays the brand reveal. Reduced-motion users receive a static composition. Service prices and reviews remain in the HTML so they are available without JavaScript.
 
 ## Deployment
-Connect this GitHub repository to a Vercel project with the project root as the root directory and no build command. Vercel can serve the static `index.html` directly.
-
-## Accessibility and performance
-The page includes keyboard-operable menu controls, visible focus states, reduced-motion handling, lazy-loaded portfolio images, responsive layouts, and non-blocking progressive enhancement. Heavy WebGL/3D dependencies are intentionally not included in this first implementation; see `DESIGN.md` for the simplified motion approach.
+The repository is connected to the existing Vercel project. Commits to main trigger production deployment. No build command or output directory is required.
