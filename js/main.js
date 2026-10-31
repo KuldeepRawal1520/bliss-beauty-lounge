@@ -75,3 +75,17 @@ safe(function(){
  timer=setTimeout(finish,4000);
 });
 })();
+/* Phone gallery autoplay: advance one real image every three seconds, only while visible. */
+safe(function(){
+ var track=document.getElementById("gallery-track");
+ if(!track||!window.matchMedia("(max-width: 767px)").matches)return;
+ var cards=[].slice.call(track.querySelectorAll(".hall-card"));if(cards.length<2)return;
+ var timer=null,visible=false,pauseUntil=0,reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ function activeIndex(){var mid=track.scrollLeft+track.clientWidth/2,best=Infinity,index=0;cards.forEach(function(card,i){var d=Math.abs(card.offsetLeft+card.offsetWidth/2-mid);if(d<best){best=d;index=i}});return index}
+ function advance(){var i=activeIndex(),next=cards[(i+1)%cards.length];if(!next)return;if(i===cards.length-1){track.scrollTo({left:0,behavior:"smooth"})}else{next.scrollIntoView({behavior:"smooth",block:"nearest",inline:"center"})}}
+ function start(){clearInterval(timer);if(reduce||!visible||document.hidden)return;timer=setInterval(function(){if(Date.now()>=pauseUntil)advance()},3000)}
+ function interact(){pauseUntil=Date.now()+6500}
+ track.addEventListener("touchstart",interact,{passive:true});track.addEventListener("pointerdown",interact);track.addEventListener("wheel",interact,{passive:true});
+ if("IntersectionObserver"in window)new IntersectionObserver(function(entries){visible=entries[0].isIntersecting;if(visible)start();else clearInterval(timer)},{threshold:.15}).observe(track);else{visible=true;start()}
+ document.addEventListener("visibilitychange",function(){if(document.hidden)clearInterval(timer);else start()});start();
+});
