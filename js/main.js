@@ -30,7 +30,7 @@ safe(function(){
  if(scissors){
   var snip=gsap.timeline({repeat:-1,repeatDelay:2.8,paused:true});
   snip.to(scissors,{rotateY:20,rotateZ:-25,duration:2,ease:"sine.inOut"});
-  snip.to(scissors.querySelector(".blade-a"),{rotation:14,duration:.12,yoyo:true,repeat:3,transformOrigin:"90px 92px",ease:"power1.inOut"},"+=.05");
+  snip.to(scissors.querySelector(".blade-a"),{rotation:14,duration:.12,yoyo:true,repeat:1,transformOrigin:"90px 92px",ease:"power1.inOut"},"+=.05");
   snip.to(scissors.querySelector(".blade-b"),{rotation:-14,duration:.12,yoyo:true,repeat:3,transformOrigin:"90px 92px",ease:"power1.inOut"},"<");
   snip.to(scissors,{rotateY:0,duration:2,ease:"sine.inOut"},"<");loops.push(snip);
   var spark=gsap.to(".scissor-sparkle",{scale:1,opacity:1,duration:.2,repeat:-1,yoyo:true,repeatDelay:1.5,stagger:.2,paused:true});loops.push(spark);
@@ -51,7 +51,7 @@ safe(function(){
 /* THE CUT intro: JS-created overlay and one choreographed GSAP timeline. */
 safe(function(){
  var root=document.documentElement;if(!root.classList.contains("intro-pending")||reduce||fxOff)return;
- var overlay=document.createElement("div");overlay.className="brand-intro";overlay.setAttribute("aria-hidden","true");
+ var overlay=document.createElement("div");overlay.className="brand-intro";
  overlay.innerHTML='<div class="intro-vignette"></div><div class="intro-flash"></div><i class="intro-paper ivory"></i><i class="intro-paper charcoal"></i><i class="intro-paper deep"></i><div class="intro-stars"></div><div class="intro-logo-wrap"><div class="intro-name">Bliss<span class="descriptor">BEAUTY LOUNGE</span></div></div><i class="intro-cutline"></i><svg class="intro-scissors" viewBox="0 0 180 180"><g class="scissor-blade blade-a"><path d="M89 91 L20 18 Q8 6 3 18 Q0 29 13 38 L83 103" fill="#F1EEDB" stroke="#1A1917" stroke-width="2"/></g><g class="scissor-blade blade-b"><path d="M91 91 L158 18 Q170 6 176 18 Q179 29 166 38 L97 103" fill="#F1EEDB" stroke="#1A1917" stroke-width="2"/></g><circle cx="90" cy="92" r="7" fill="#F02B1F" stroke="#1A1917" stroke-width="2"/></svg><div class="intro-half top"></div><div class="intro-half bottom"></div><button class="intro-skip" type="button">Skip</button>';
  document.body.appendChild(overlay);
  var papers=overlay.querySelectorAll(".intro-paper"),name=overlay.querySelector(".intro-name"),logo=overlay.querySelector(".intro-logo-wrap"),sc=overlay.querySelector(".intro-scissors"),skip=overlay.querySelector(".intro-skip"),stars=overlay.querySelector(".intro-stars"),done=false,tl=null;
@@ -62,7 +62,7 @@ safe(function(){
  }
  function keySkip(e){if(["Enter"," ","Escape"].indexOf(e.key)>-1){e.preventDefault();finish()}}
  skip.addEventListener("click",finish);overlay.addEventListener("click",function(e){if(e.target===overlay)finish()});document.addEventListener("keydown",keySkip);document.body.style.overflow="hidden";
- var fonts=document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve();
+ try{if(document.fonts){document.fonts.load('400 1em "Great Vibes"');document.fonts.load('500 1em "DM Sans"')}}catch(e){}var fonts=document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve();
  Promise.race([fonts,new Promise(function(resolve){setTimeout(resolve,400)})]).then(function(){
   if(done)return;if(!window.gsap){setTimeout(finish,3400);return}
   safe(function(){
