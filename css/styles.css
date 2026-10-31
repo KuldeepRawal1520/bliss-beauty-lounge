@@ -78,7 +78,7 @@ html.fx-off{scroll-behavior:auto!important}html.fx-off *,html.fx-off *:before,ht
 .intro-paper.ivory{background:#F1EEDB}.intro-paper.charcoal{background:#1A1917}.intro-paper.deep{background:linear-gradient(145deg,#F02B1F,#b52219)}
 .intro-logo-wrap{position:absolute;left:50%;top:50%;width:max-content;max-width:94vw;text-align:center;transform:translate(-50%,-50%);z-index:4;transform-style:preserve-3d}
 .intro-name{font:400 clamp(110px,24vw,340px)/.85 var(--script,cursive);color:#F1EEDB;text-align:center;position:relative;white-space:nowrap;transform-style:preserve-3d}
-.intro-name .descriptor{display:block;font:500 clamp(16px,2.6vw,30px)/1.2 var(--body,system-ui);letter-spacing:.4em;color:#F1EEDB;margin-top:18px}
+.intro-name .descriptor{display:block;opacity:0;font:500 clamp(16px,2.6vw,30px)/1.2 var(--body,system-ui);letter-spacing:.4em;color:#F1EEDB;margin-top:18px}.intro-glow-copy{position:absolute;inset:0;color:#F1EEDB;opacity:.4;pointer-events:none;text-shadow:0 0 18px rgba(241,238,219,.4)}
 .intro-stars{position:absolute;inset:0;pointer-events:none}.intro-star{position:absolute;color:#F1EEDB;font-size:20px;opacity:0;transform:scale(.4)}
 .intro-scissors{position:absolute;width:220px;height:220px;left:0;top:0;z-index:7;opacity:0;transform-style:preserve-3d}
 .intro-half{position:absolute;inset:0;background:#F02B1F;z-index:8;pointer-events:none}
@@ -88,7 +88,7 @@ html.fx-off{scroll-behavior:auto!important}html.fx-off *,html.fx-off *:before,ht
 @keyframes reveal-fallback{to{visibility:visible;opacity:1;transform:translateY(0)}}
 @media(max-width:760px){
  .hero{min-height:calc(100svh - 72px);padding:18px var(--gutter) calc(90px + env(safe-area-inset-bottom))}
- .hero-inner{display:flex;flex-direction:column;align-items:stretch;gap:0}.hero-copy{order:0}
+ .hero-inner{display:grid;grid-template-columns:1fr;grid-template-rows:auto auto auto auto auto auto auto auto;align-items:start;gap:0}.hero-copy{display:contents}.hero-copy .eyebrow{grid-row:1}.hero-copy .hero-location{grid-row:2}.hero-copy h1{grid-row:3}.hero-copy .hero-description{grid-row:4}.mirror-cluster{grid-row:5}.hero-copy .call-button{grid-row:6;justify-self:start}.hero-copy .walkins{grid-row:7}.hero-copy .open-chip{grid-row:8}
  .hero h1{font-size:clamp(40px,10vw,62px);margin:0 0 8px}.eyebrow{margin-bottom:7px}.hero-location{margin:0 0 9px}
  .hero-description{margin:0 0 10px;font-size:15px}.hero-copy .call-button{min-height:48px;font-size:20px}
  .walkins{display:inline-block;margin:7px 10px 0 0}.open-chip{margin:4px 0 0}
