@@ -12,26 +12,38 @@ safe(function(){var strip=document.querySelector(".review-strip"),prev=document.
 safe(function(){var track=document.getElementById("gallery-track"),cards=track&&[].slice.call(track.querySelectorAll(".hall-card")),prev=document.getElementById("gallery-prev"),next=document.getElementById("gallery-next"),dots=document.getElementById("gallery-dots");if(!track||!cards.length)return;function step(dir){var card=cards[0],gap=15;track.scrollBy({left:dir*(card.getBoundingClientRect().width+gap),behavior:reduce?"auto":"smooth"})}if(prev)prev.addEventListener("click",function(){step(-1)});if(next)next.addEventListener("click",function(){step(1)});if(dots){cards.forEach(function(c,i){var b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Show photo "+(i+1));b.addEventListener("click",function(){cards[i].scrollIntoView({behavior:reduce?"auto":"smooth",block:"nearest",inline:"center"})});dots.appendChild(b)});var indicators=dots.querySelectorAll("button");function update(){var mid=track.scrollLeft+track.clientWidth/2,active=0,best=Infinity;cards.forEach(function(c,i){var d=Math.abs(c.offsetLeft+c.offsetWidth/2-mid);if(d<best){best=d;active=i}});cards.forEach(function(c,i){c.classList.toggle("is-centred",i===active)});indicators.forEach(function(b,i){b.classList.toggle("active",i===active)})}track.addEventListener("scroll",function(){requestAnimationFrame(update)},{passive:true});update()}});
 safe(function(){if(reduce||fxOff||!window.gsap||!window.ScrollTrigger)return;gsap.registerPlugin(ScrollTrigger);gsap.from(".hero-copy h1",{y:24,opacity:0,duration:.7,ease:"power2.out"});gsap.from(".mirror",{y:60,opacity:0,duration:.9,stagger:.12,ease:"power2.out",delay:.15});var cards=document.querySelectorAll(".hall-card");if(innerWidth>760){cards.forEach(function(card,i){gsap.fromTo(card,{rotateY:i%2?16:-16,z:-120,opacity:.85},{rotateY:0,z:0,opacity:1,ease:"none",scrollTrigger:{trigger:card,start:"top 95%",end:"center 48%",scrub:true}})})}gsap.utils.toArray(".section-heading").forEach(function(el){gsap.from(el,{y:24,opacity:0,duration:.7,ease:"power2.out",scrollTrigger:{trigger:el,start:"top 90%"}})})});
 
-/* PREMIUM HERO LOOKBOOK: accessible, automatic three-frame carousel. */
+/* RYAN STYLE TEST: five-card tactile 3D coverflow. */
 safe(function(){
- var cluster=document.querySelector('.mirror-cluster');if(!cluster)return;
- var imgs=[].slice.call(cluster.querySelectorAll('.mirror img'));if(imgs.length!==3)return;
- var slides=[
-  {images:['platinum-blonde.jpg','red-hair.jpg','blue-colour.jpg'],names:['Platinum blonde','Scarlet gloss','Vivid blue'],title:'A little colour goes a long way.'},
-  {images:['blonde-ombre.jpg','burgundy-highlights.jpg','caramel-bob.jpg'],names:['Blonde ombre','Burgundy dimension','Caramel bob'],title:'Find the shade that feels like you.'},
-  {images:['silver-chunky-highlights.jpg','caramel-highlights-waves.jpg','brunette-caramel-waves.jpg'],names:['Silver dimension','Caramel waves','Brunette gloss'],title:'Beautiful from every angle.'},
-  {images:['ash-blonde-balayage.jpg','gold-highlights-layers.jpg','silver-highlights.jpg'],names:['Ash blonde','Golden layers','Silver highlights'],title:'Your next look starts here.'}
- ];
- var current=0,locked=false,interval=null;
- var caption=document.createElement('div');caption.className='lookbook-caption';caption.innerHTML='<span class="lookbook-kicker">THE BLISS COLOUR EDIT</span><span class="lookbook-title"></span><span class="lookbook-count"></span>';cluster.appendChild(caption);
- var controls=document.createElement('div');controls.className='lookbook-controls';controls.innerHTML='<button type="button" class="lookbook-prev" aria-label="Previous colour looks">‹</button><div class="lookbook-dots" role="group" aria-label="Choose a colour look"></div><button type="button" class="lookbook-next" aria-label="Next colour looks">›</button>';cluster.appendChild(controls);
- var title=caption.querySelector('.lookbook-title'),count=caption.querySelector('.lookbook-count'),dots=controls.querySelector('.lookbook-dots');
- slides.forEach(function(s,i){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Show look '+(i+1));b.addEventListener('click',function(){show(i);restart()});dots.appendChild(b)});
- function paint(){title.textContent=slides[current].title;count.textContent=String(current+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');[].forEach.call(dots.children,function(b,i){b.classList.toggle('active',i===current);b.setAttribute('aria-pressed',String(i===current))})}
- function show(i){if(locked)return;locked=true;current=(i+slides.length)%slides.length;var s=slides[current],loaded=0;imgs.forEach(function(img,n){var pre=new Image();pre.onload=function(){img.classList.add('is-changing');setTimeout(function(){img.src=pre.src;img.alt='Hair colour: '+s.names[n];img.classList.remove('is-changing');img.classList.add('is-arriving');setTimeout(function(){img.classList.remove('is-arriving')},850);if(++loaded===imgs.length)locked=false},280)};pre.onerror=function(){if(++loaded===imgs.length)locked=false};pre.src=s.images[n]});paint()}
- function restart(){if(interval)clearInterval(interval);if(!reduce&&!fxOff)interval=setInterval(function(){if(!document.hidden)show(current+1)},5200)}
- controls.querySelector('.lookbook-prev').addEventListener('click',function(){show(current-1);restart()});controls.querySelector('.lookbook-next').addEventListener('click',function(){show(current+1);restart()});
- paint();restart();document.addEventListener('visibilitychange',function(){if(document.hidden){if(interval)clearInterval(interval)}else restart()});
+ var stage=document.querySelector('.mirror-cluster'),track=stage&&stage.querySelector('.coverflow-track');if(!stage||!track)return;
+ var cards=[].slice.call(track.querySelectorAll('.cover-card')),active=0,drag=0,startX=0,lastX=0,lastT=0,velocity=0,raf=0,dragging=false,swiped=false,pauseUntil=0,auto=null;
+ var hint=stage.querySelector('.cover-swipe-hint'),prev=stage.querySelector('.cover-prev'),next=stage.querySelector('.cover-next');
+ var dots=document.createElement('div');dots.className='cover-dots';dots.setAttribute('role','group');dots.setAttribute('aria-label','Choose a hair colour');
+ cards.forEach(function(card,i){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Show '+card.querySelector('.cover-label').textContent+' look');b.addEventListener('click',function(){if(Math.abs(drag)>8)return;set(i);pause()});dots.appendChild(b)});
+ stage.appendChild(dots);
+ function render(){cards.forEach(function(card,i){var d=i-active-drag/ (stage.clientWidth*.58);while(d>2.5)d-=cards.length;while(d< -2.5)d+=cards.length;var a=Math.abs(d),opacity=a<.5?1:a<1.5?.85:a<2?.5:0;card.style.setProperty('--d',d.toFixed(3));card.style.setProperty('--opacity',opacity);card.style.zIndex=String(10-Math.round(a));card.classList.toggle('is-active',Math.round(d)===0&&a<.35);card.setAttribute('aria-hidden',String(a>2));card.tabIndex=a<.5?0:-1;card.style.pointerEvents=a>2?'none':'auto';card.style.willChange=(dragging||a<.5)?'transform':'auto';dots.children[i].classList.toggle('active',a<.5);dots.children[i].setAttribute('aria-pressed',String(a<.5))});}
+ function set(i){active=(i+cards.length)%cards.length;drag=0;render()}
+ function stop(){if(auto)clearInterval(auto);auto=null}
+ function play(){stop();if(reduce||fxOff||document.hidden)return;auto=setInterval(function(){if(Date.now()>pauseUntil&&!dragging&&visible)set(active+1)},3200)}
+ var visible=true,observer='IntersectionObserver'in window?new IntersectionObserver(function(entries){visible=entries[0].isIntersecting;if(visible)play();else stop()},{threshold:.2}):null;if(observer)observer.observe(stage);
+ function pause(){pauseUntil=Date.now()+8000;play()}
+ function schedule(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;render()})}
+ function down(e){if(e.pointerType==='mouse'&&e.button!==0)return;dragging=true;startX=lastX=e.clientX;lastT=performance.now();velocity=0;stage.classList.add('is-dragging');stage.setPointerCapture&&stage.setPointerCapture(e.pointerId);stop()}
+ function move(e){if(!dragging)return;var now=performance.now(),dx=e.clientX-startX;velocity=(e.clientX-lastX)/Math.max(1,now-lastT);lastX=e.clientX;lastT=now;drag=dx;schedule();if(Math.abs(dx)>5&&!swiped){swiped=true;stage.classList.add('has-swiped');if(hint)hint.hidden=true}}
+ function up(){if(!dragging)return;dragging=false;stage.classList.remove('is-dragging');var dx=drag,threshold=stage.clientWidth*.16;if(Math.abs(dx)>threshold||Math.abs(velocity)>.48){var step=Math.abs(velocity)>.48?1:Math.max(1,Math.round(Math.abs(dx)/threshold));set(active+(dx<0?step:-step))}else set(active);pause()}
+ stage.addEventListener('pointerdown',down);stage.addEventListener('pointermove',move);stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',up);
+ cards.forEach(function(card,i){card.addEventListener('click',function(e){if(Math.abs(drag)>5)return;if(i!==active){e.preventDefault();set(i);pause()}})});
+ if(prev)prev.addEventListener('click',function(){set(active-1);pause()});if(next)next.addEventListener('click',function(){set(active+1);pause()});
+ stage.addEventListener('keydown',function(e){if(e.key==='ArrowLeft'){set(active-1);pause()}if(e.key==='ArrowRight'){set(active+1);pause()}});
+ set(0);play();document.addEventListener('visibilitychange',function(){if(document.hidden)stop();else play()});
+});
+/* Phone navigation and delayed sticky booking bar. */
+safe(function(){
+ var header=document.querySelector('.site-header'),toggle=document.querySelector('.menu-toggle'),menu=document.querySelector('#phone-menu');
+ if(toggle&&menu){function close(){menu.classList.remove('is-open');toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Open menu')}
+ toggle.addEventListener('click',function(){var open=toggle.getAttribute('aria-expanded')!=='true';toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'Close menu':'Open menu');menu.classList.toggle('is-open',open)});
+ menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',close)});document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});}
+ var heroButtons=document.querySelector('.hero-actions'),sticky=document.querySelector('.phone-sticky');if(!heroButtons||!sticky)return;
+ if('IntersectionObserver'in window){var io=new IntersectionObserver(function(entries){sticky.classList.toggle('is-visible',!entries[0].isIntersecting)},{threshold:0});io.observe(heroButtons)}else sticky.classList.add('is-visible');
 });
 /* THE CUT: self-contained CSS choreography, independent of GSAP availability. */
 safe(function(){
